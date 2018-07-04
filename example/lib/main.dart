@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_scroll_gallery/scroll_gallery.dart';
+import 'package:flutter_scroll_gallery/flutter_scroll_gallery.dart';
 
 void main() => runApp(new MyApp());
 

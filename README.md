@@ -14,7 +14,7 @@ dependencies:
 ```
 
 ```dart
-import 'package:flutter_scroll_gallery/scroll_gallery.dart';
+import 'package:flutter_scroll_gallery/flutter_scroll_gallery.dart';
 ```
 
 ## Usage
@@ -37,6 +37,8 @@ new ScrollGallery(<ImageProvider>[
   interval: new Duration(seconds: 3),)
 );
 ```
+
+To disable auto-play, dont set **interval**
 
 ## Showcase
 

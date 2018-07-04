@@ -1,7 +1,7 @@
 name: flutter_scroll_gallery
 author: Thong Ku <matong.mz@gmail.com>
 homepage: https://github.com/dthongvl/flutter_scroll_gallery
-description: A image gallery with scroll thumbnail flutter plugin
+description: A Flutter package that help you to create Image carousels with scroll thumbnail in bottom
 version: 0.0.1
 
 environment:
