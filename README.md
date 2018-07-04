@@ -20,7 +20,8 @@ import 'package:flutter_scroll_gallery/flutter_scroll_gallery.dart';
 ## Usage
 
 ```dart
-new ScrollGallery(<ImageProvider>[
+new ScrollGallery(
+  <ImageProvider>[
     new NetworkImage("https://flutter.io/images/homepage/header-illustration.png"),
     new NetworkImage("https://i.ytimg.com/vi/fq4N0hgOWzU/maxresdefault.jpg"),
     new NetworkImage("https://cdn-images-1.medium.com/max/1219/1*TFZQzyVAHLVXI_wNreokGA.png"),
