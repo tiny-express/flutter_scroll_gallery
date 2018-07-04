@@ -30,6 +30,9 @@ class _ScrollGalleryState extends State<ScrollGallery>
 
   @override
   void initState() {
+    _scrollController = new ScrollController();
+    _pageController = new PageController();
+
     if (widget.interval != null) {
       _timer = new Timer.periodic(widget.interval, (_) {
         if (_currentIndex == widget.imageProviders.length - 1) {
@@ -40,17 +43,15 @@ class _ScrollGalleryState extends State<ScrollGallery>
         }
 
         if (_reverse) {
-          _pageController.previousPage(
+          _pageController?.previousPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease);
         } else {
-          _pageController.nextPage(
+          _pageController?.nextPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease);
         }
       });
     }
-
-    _scrollController = new ScrollController();
-    _pageController = new PageController();
+    
     super.initState();
   }
 
@@ -67,7 +68,7 @@ class _ScrollGalleryState extends State<ScrollGallery>
       _currentIndex = index;
       double itemSize =
           (widget.thumbnailSize != null ? widget.thumbnailSize : 48.0) + 8.0;
-      _scrollController.animateTo(itemSize * index / 2,
+      _scrollController?.animateTo(itemSize * index / 2,
           duration: const Duration(milliseconds: 200), curve: Curves.ease);
     });
   }
@@ -88,7 +89,7 @@ class _ScrollGalleryState extends State<ScrollGallery>
 
   void _selectImage(int index) {
     setState(() {
-      _pageController.animateToPage(index,
+      _pageController?.animateToPage(index,
           duration: const Duration(milliseconds: 500), curve: Curves.ease);
     });
   }

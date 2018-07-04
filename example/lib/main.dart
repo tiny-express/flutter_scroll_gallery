@@ -46,7 +46,6 @@ class MyImageGallery extends StatelessWidget {
         // new NetworkImage("https://cdn-images-1.medium.com/max/1219/1*TFZQzyVAHLVXI_wNreokGA.png"),
         // new NetworkImage("https://cdn-images-1.medium.com/max/744/1*L2IaQThqx4lzz3G1m-e07Q.png")
       ],
-      height: 400.0,
       interval: new Duration(seconds: 3),)
     );
   }
