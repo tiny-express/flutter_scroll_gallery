@@ -1,6 +1,6 @@
 # flutter_scroll_gallery
 
-A Flutter package that help you to create Image carousels with scroll thumbnail in bottom
+A Flutter package that help you to create Image carousels with scroll thumbnail at the bottom
 
 Inspired from [flutter_image_carousel](https://github.com/theobouwman/flutter_image_carousel) and [ScrollGalleryView](https://github.com/VEINHORN/ScrollGalleryView)
 
