@@ -10,7 +10,7 @@ Inspired from [flutter_image_carousel](https://github.com/theobouwman/flutter_im
 dependencies:
   flutter:
     sdk: flutter
-  flutter_scroll_gallery: ^0.0.1
+  flutter_scroll_gallery: ^0.0.2
 ```
 
 ```dart

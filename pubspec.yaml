@@ -4,7 +4,7 @@ authors:
 - Anh Nguyen <razordmonkey@live.com>
 homepage: http://github.com/foodtiny/flutter_scroll_gallery
 description: A Flutter package that help you to create Image carousels with scroll thumbnail in bottom
-version: 0.0.1
+version: 0.0.2
 
 environment:
   sdk: '>=2.0.0-dev.0.0 <3.0.0'
