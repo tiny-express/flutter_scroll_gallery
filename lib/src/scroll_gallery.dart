@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
 
 class ScrollGallery extends StatefulWidget {
   final double height;
@@ -8,13 +9,17 @@ class ScrollGallery extends StatefulWidget {
   final BoxFit fit;
   final Duration interval;
   final Color borderColor;
+  final Color backgroundColor;
+  final bool zoomable;
 
   ScrollGallery(this.imageProviders,
-      {this.height,
-      this.thumbnailSize,
-      this.fit,
-      this.interval,
-      this.borderColor});
+      {this.height = double.infinity,
+      this.thumbnailSize = 48.0,
+      this.borderColor = Colors.red,
+      this.backgroundColor = Colors.black,
+      this.zoomable = true,
+      this.fit = BoxFit.contain,
+      this.interval});
 
   @override
   _ScrollGalleryState createState() => _ScrollGalleryState();
@@ -27,14 +32,19 @@ class _ScrollGalleryState extends State<ScrollGallery>
   Timer _timer;
   int _currentIndex = 0;
   bool _reverse = false;
+  bool _lock = false;
 
   @override
   void initState() {
     _scrollController = new ScrollController();
     _pageController = new PageController();
 
-    if (widget.interval != null) {
+    if (widget.interval != null && widget.imageProviders.length > 1) {
       _timer = new Timer.periodic(widget.interval, (_) {
+        if (_lock) {
+          return;
+        }
+
         if (_currentIndex == widget.imageProviders.length - 1) {
           _reverse = true;
         }
@@ -51,7 +61,7 @@ class _ScrollGalleryState extends State<ScrollGallery>
         }
       });
     }
-    
+
     super.initState();
   }
 
@@ -66,23 +76,38 @@ class _ScrollGalleryState extends State<ScrollGallery>
   void _onPageChanged(int index) {
     setState(() {
       _currentIndex = index;
-      double itemSize =
-          (widget.thumbnailSize != null ? widget.thumbnailSize : 48.0) + 8.0;
+      double itemSize = widget.thumbnailSize + 8.0;
       _scrollController?.animateTo(itemSize * index / 2,
           duration: const Duration(milliseconds: 200), curve: Curves.ease);
     });
   }
 
+  Widget _zoomableImage(image) {
+    return new PhotoView(
+      backgroundDecoration: BoxDecoration(color: widget.backgroundColor),
+      imageProvider: image,
+      scaleStateChangedCallback: (PhotoViewScaleState state) {
+        setState(() {
+          _lock = state == PhotoViewScaleState.zooming;
+        });
+      },
+    );
+  }
+
+  Widget _notZoomableImage(image) {
+    return new Image(image: image, fit: widget.fit);
+  }
+
   Widget _buildImagePageView() {
     return Expanded(
         child: new PageView(
+      physics: _lock ? NeverScrollableScrollPhysics() : null,
       onPageChanged: _onPageChanged,
       controller: _pageController,
       children: widget.imageProviders.map((image) {
-        return new Image(
-          fit: widget.fit != null ? widget.fit : null,
-          image: image,
-        );
+        return (widget.zoomable
+            ? _zoomableImage(image)
+            : _notZoomableImage(image));
       }).toList(),
     ));
   }
@@ -91,29 +116,24 @@ class _ScrollGalleryState extends State<ScrollGallery>
     setState(() {
       _pageController?.animateToPage(index,
           duration: const Duration(milliseconds: 500), curve: Curves.ease);
+      _lock = false;
     });
   }
 
   Widget _buildImageThumbnail() {
-    var _thumbnailSize =
-        widget.thumbnailSize != null ? widget.thumbnailSize : 48.0;
-
     return new Container(
-        height: _thumbnailSize,
+        height: widget.thumbnailSize,
         child: new ListView.builder(
           controller: _scrollController,
           itemCount: widget.imageProviders.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
-            var _decoration;
+            var decoration = new BoxDecoration(color: Colors.white);
+
             if (_currentIndex == index) {
-              var _borderColor =
-                  widget.borderColor != null ? widget.borderColor : Colors.red;
-              _decoration = new BoxDecoration(
-                  border: new Border.all(color: _borderColor, width: 2.0),
+              decoration = new BoxDecoration(
+                  border: new Border.all(color: widget.borderColor, width: 2.0),
                   color: Colors.white);
-            } else {
-              _decoration = new BoxDecoration(color: Colors.white);
             }
 
             return new GestureDetector(
@@ -121,13 +141,13 @@ class _ScrollGalleryState extends State<ScrollGallery>
                   _selectImage(index);
                 },
                 child: new Container(
-                  decoration: _decoration,
+                  decoration: decoration,
                   margin: const EdgeInsets.only(left: 8.0),
                   child: new Image(
                     image: widget.imageProviders[index],
-                    fit: BoxFit.cover,
-                    width: _thumbnailSize,
-                    height: _thumbnailSize,
+                    fit: widget.fit,
+                    width: widget.thumbnailSize,
+                    height: widget.thumbnailSize,
                   ),
                 ));
           },
@@ -137,12 +157,13 @@ class _ScrollGalleryState extends State<ScrollGallery>
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: widget.height != null ? widget.height : double.infinity,
-        color: Colors.black,
+        height: widget.height,
+        color: widget.backgroundColor,
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _buildImagePageView(),
+            new SizedBox(height: 8.0),
             _buildImageThumbnail(),
             new SizedBox(height: 8.0)
           ],

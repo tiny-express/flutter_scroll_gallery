@@ -1,6 +1,6 @@
 # flutter_scroll_gallery
 
-A Flutter package that help you to create Image carousels with scroll thumbnail at the bottom
+A Flutter package that helps you to create a zoomable carousel with scrollable thumbnail at the bottom
 
 Inspired from [flutter_image_carousel](https://github.com/theobouwman/flutter_image_carousel) and [ScrollGalleryView](https://github.com/VEINHORN/ScrollGalleryView)
 
@@ -10,7 +10,7 @@ Inspired from [flutter_image_carousel](https://github.com/theobouwman/flutter_im
 dependencies:
   flutter:
     sdk: flutter
-  flutter_scroll_gallery: ^0.0.2
+  flutter_scroll_gallery: ^0.1.0
 ```
 
 ```dart
@@ -39,7 +39,7 @@ new ScrollGallery(
 );
 ```
 
-To disable auto-play, dont set **interval**
+To disable auto-play, do not set the **interval**
 
 ## Showcase
 
