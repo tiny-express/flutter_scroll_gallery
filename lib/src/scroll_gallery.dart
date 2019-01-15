@@ -99,7 +99,6 @@ class _ScrollGalleryState extends State<ScrollGallery>
       scaleStateChangedCallback: (PhotoViewScaleState state) {
         setState(() {
           _lock = state != PhotoViewScaleState.initial;
-          print(state);
         });
       },
     );
