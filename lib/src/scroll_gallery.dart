@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
+typedef void OnPageChange(int index);
+
 class ScrollGallery extends StatefulWidget {
   final double height;
   final double thumbnailSize;
@@ -11,6 +13,8 @@ class ScrollGallery extends StatefulWidget {
   final Color borderColor;
   final Color backgroundColor;
   final bool zoomable;
+  final int initialIndex;
+  final OnPageChange onPageChange;
 
   ScrollGallery(this.imageProviders,
       {this.height = double.infinity,
@@ -19,7 +23,9 @@ class ScrollGallery extends StatefulWidget {
       this.backgroundColor = Colors.black,
       this.zoomable = true,
       this.fit = BoxFit.contain,
-      this.interval});
+      this.interval,
+      this.initialIndex = 0,
+      this.onPageChange});
 
   @override
   _ScrollGalleryState createState() => _ScrollGalleryState();
@@ -37,8 +43,8 @@ class _ScrollGalleryState extends State<ScrollGallery>
   @override
   void initState() {
     _scrollController = new ScrollController();
-    _pageController = new PageController();
-
+    _pageController = new PageController(initialPage: widget.initialIndex);
+    _currentIndex = widget.initialIndex;
     if (widget.interval != null && widget.imageProviders.length > 1) {
       _timer = new Timer.periodic(widget.interval, (_) {
         if (_lock) {
@@ -74,6 +80,9 @@ class _ScrollGalleryState extends State<ScrollGallery>
   }
 
   void _onPageChanged(int index) {
+    if (widget.onPageChange != null) {
+      widget.onPageChange(index);
+    }
     setState(() {
       _currentIndex = index;
       double itemSize = widget.thumbnailSize + 8.0;
@@ -86,9 +95,11 @@ class _ScrollGalleryState extends State<ScrollGallery>
     return new PhotoView(
       backgroundDecoration: BoxDecoration(color: widget.backgroundColor),
       imageProvider: image,
+      minScale: PhotoViewComputedScale.contained,
       scaleStateChangedCallback: (PhotoViewScaleState state) {
         setState(() {
-          _lock = state == PhotoViewScaleState.zooming;
+          _lock = state != PhotoViewScaleState.initial;
+          print(state);
         });
       },
     );

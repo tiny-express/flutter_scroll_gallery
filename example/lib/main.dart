@@ -46,7 +46,12 @@ class MyImageGallery extends StatelessWidget {
         // new NetworkImage("https://cdn-images-1.medium.com/max/1219/1*TFZQzyVAHLVXI_wNreokGA.png"),
         // new NetworkImage("https://cdn-images-1.medium.com/max/744/1*L2IaQThqx4lzz3G1m-e07Q.png")
       ],
-      interval: new Duration(seconds: 3),)
+      interval: new Duration(seconds: 3),
+      backgroundColor: Colors.blue,
+      initialIndex: 2,
+      onPageChange: (index) {
+        print(index);
+      },)
     );
   }
 }
