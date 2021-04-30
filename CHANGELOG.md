@@ -1,3 +1,7 @@
+## [1.0.0]
+
+* Migraate to Nullsafety
+
 ## [0.1.0]
 
 * Improve code style and performance
