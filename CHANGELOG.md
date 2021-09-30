@@ -1,3 +1,7 @@
+## [1.0.1]
+
+* Fix late _timer was not initialized but called
+
 ## [1.0.0]
 
 * Migraate to Nullsafety
