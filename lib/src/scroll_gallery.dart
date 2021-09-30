@@ -37,7 +37,7 @@ class _ScrollGalleryState extends State<ScrollGallery>
     with SingleTickerProviderStateMixin {
   late final ScrollController _scrollController;
   late final PageController _pageController;
-  late final Timer? _timer;
+  Timer? _timer;
   int _currentIndex = 0;
   bool _reverse = false;
   bool _lock = false;
